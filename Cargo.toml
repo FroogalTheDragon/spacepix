@@ -2,7 +2,7 @@
 name = "spacepix"
 authors = ["Mark A Waid <mark.waid94@gmail.com>"]
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [features]
 wgpu = ["eframe/wgpu"]
