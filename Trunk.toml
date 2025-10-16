@@ -1,0 +1,19 @@
+# [build]
+# target = "./index.html"
+
+# [watch]
+# ignore = ["./src-tauri"]
+
+# [serve]
+# port = 1420
+# open = false
+[build]
+target = "./index.html"
+
+[watch]
+ignore = ["./src-tauri"]
+
+[serve]
+port = 1420
+open = false
+ws_protocol = "ws"
