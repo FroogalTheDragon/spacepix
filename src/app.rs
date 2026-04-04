@@ -215,40 +215,40 @@ impl eframe::App for SpacePixUi {
     #[allow(unused_variables)]
     fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
-            egui::menu::bar(ui, |ui| {
+            egui::MenuBar::new().ui(ui, |ui| {
                 ui.menu_button("File", |ui| {
                     if ui.button("Save").clicked() {
                         println!("Save");
-                        ui.close_menu();
+                        ui.close();
                     }
 
                     if ui.button("APOD").clicked() {
                         self.apod_ui.apod_window_visible = true; // Open APOD window
-                        ui.close_menu();
+                        ui.close();
                     }
 
                     if ui.button("Asteroids - NeoWs").clicked() {
                         self.neows_ui.neows_window_visible = true; // Open NEOWs window
-                        ui.close_menu();
+                        ui.close();
                     }
 
                     if ui.button("NASA Image and Video Library").clicked() {
                         self.nivl_ui.nivl_window_visible = true;
-                        ui.close_menu();
+                        ui.close();
                     }
 
                     ui.separator();
 
                     if ui.button("Quit").clicked() {
                         ctx.send_viewport_cmd(egui::ViewportCommand::Close);
-                        ui.close_menu();
+                        ui.close();
                     }
                 });
 
                 ui.menu_button("Settings", |ui| {
                     if ui.button("Set API Key").clicked() {
                         self.api.api_key_window_visible = true;
-                        ui.close_menu();
+                        ui.close();
                     }
 
                     ui.menu_button("Theme", |ui| {
@@ -269,7 +269,7 @@ impl eframe::App for SpacePixUi {
                 ui.menu_button("Help", |ui| {
                     if ui.button("About").clicked() {
                         self.about.about_window_visible = true; // Set about_window_visible to true so on next update() it will come up.
-                        ui.close_menu();
+                        ui.close();
                     }
                 });
             });
@@ -290,9 +290,9 @@ impl eframe::App for SpacePixUi {
                                     RichText::new(data.title.clone()).font(FontId::monospace(20.0)),
                                 );
                                 if ui
-                                    .add(egui::widgets::ImageButton::new(egui::Image::from_uri(
+                                    .add(egui::Button::image(egui::Image::from_uri(
                                         data.url.clone(),
-                                    )))
+                                    ).fit_to_original_size(1.0)))
                                     .on_hover_cursor(egui::CursorIcon::PointingHand)
                                     .clicked()
                                 {
