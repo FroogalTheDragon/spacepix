@@ -10,7 +10,7 @@ impl Default for ApodWindow {
     fn default() -> Self {
         Self {
             apod_window_visible: false,
-            apod_full_window_visible: false
+            apod_full_window_visible: false,
         }
     }
 }
@@ -55,7 +55,7 @@ impl ApodWindow {
 pub struct NeowsWindow {
     pub neows_date: String,
     pub neows_invalid_input_window_visible: bool,
-    pub neows_window_visible: bool
+    pub neows_window_visible: bool,
 }
 
 impl Default for NeowsWindow {
@@ -63,7 +63,7 @@ impl Default for NeowsWindow {
         Self {
             neows_date: String::default(),
             neows_invalid_input_window_visible: false,
-            neows_window_visible: false
+            neows_window_visible: false,
         }
     }
 }
@@ -71,14 +71,14 @@ impl Default for NeowsWindow {
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 pub struct NIVLWindow {
     pub query: String,
-    pub nivl_window_visible: bool
+    pub nivl_window_visible: bool,
 }
 
 impl Default for NIVLWindow {
     fn default() -> Self {
         Self {
             query: String::default(),
-            nivl_window_visible: false
+            nivl_window_visible: false,
         }
     }
 }
@@ -91,7 +91,7 @@ pub struct AboutWindow {
 impl Default for AboutWindow {
     fn default() -> Self {
         Self {
-            about_window_visible: false
+            about_window_visible: false,
         }
     }
 }
@@ -100,7 +100,7 @@ impl Default for AboutWindow {
 pub struct ApiKeyWindow {
     pub api_key_window_visible: bool,
     pub key: String,
-    pub key_set_label: String
+    pub key_set_label: String,
 }
 
 impl Default for ApiKeyWindow {
@@ -108,7 +108,7 @@ impl Default for ApiKeyWindow {
         Self {
             api_key_window_visible: false,
             key: String::default(),
-            key_set_label: String::default()
+            key_set_label: String::default(),
         }
     }
 }

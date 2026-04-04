@@ -65,7 +65,8 @@ impl Apod {
     }
 
     pub fn get_apod_data_blocking() -> Result<Self, NetworkError> {
-        match reqwest::blocking::get(Parser::default().apod_url().replace("\"", "")) { // .replace to get rid of the extra quotes from the URL
+        match reqwest::blocking::get(Parser::default().apod_url().replace("\"", "")) {
+            // .replace to get rid of the extra quotes from the URL
             Ok(r) => match json::parse(r.text().unwrap().as_str()) {
                 Ok(json_obj) => Ok(Self {
                     copyright: json_obj["copyright"].to_string(),
@@ -105,7 +106,7 @@ impl Default for Links {
         Self {
             next: String::default(),
             previous: String::default(),
-            current: String::default()
+            current: String::default(),
         }
     }
 }
@@ -172,15 +173,11 @@ pub struct NEOFeed {
 }
 
 impl NEOFeed {
-    pub fn new(
-        links: Links,
-        element_count: u8,
-        near_earth_objects: Vec<NearEarthObject>
-    ) -> Self {
+    pub fn new(links: Links, element_count: u8, near_earth_objects: Vec<NearEarthObject>) -> Self {
         Self {
             links,
             element_count,
-            near_earth_objects
+            near_earth_objects,
         }
     }
 
@@ -258,7 +255,7 @@ impl NEOFeed {
                         json_obj["links"]["previous"].to_string(),
                         json_obj["links"]["self"].to_string(),
                     );
-                    
+
                     self.links = links;
                     self.near_earth_objects = neo_vec;
                     Ok(self)
@@ -275,15 +272,13 @@ impl Default for NEOFeed {
         Self {
             links: Links::default(),
             element_count: u8::default(),
-            near_earth_objects: Vec::default()
+            near_earth_objects: Vec::default(),
         }
     }
 }
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
-pub struct NIVL {
-
-}
+pub struct NIVL {}
 
 impl Default for NIVL {
     fn default() -> Self {

@@ -36,14 +36,14 @@ fn main() -> eframe::Result {
         Ok(mut f) => {
             let mut key = String::default();
             f.read_to_string(&mut key).unwrap();
-            let key_json: serde_json::Value = serde_json::from_str(&key.as_str()).unwrap();//json::from(key);
+            let key_json: serde_json::Value = serde_json::from_str(&key.as_str()).unwrap(); //json::from(key);
             let parser = Parser::new(key_json["key"].to_string());
             Ok(eframe::run_native(
-            "Space Pix",
-            native_options,
-            Box::new(|cc| Ok(Box::new(spacepix::SpacePixUi::new(cc, parser)))),
+                "Space Pix",
+                native_options,
+                Box::new(|cc| Ok(Box::new(spacepix::SpacePixUi::new(cc, parser)))),
             )?)
-        },
+        }
         Err(_) => panic!("Missing API key file..."),
     }
 }

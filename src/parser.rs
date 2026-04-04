@@ -1,9 +1,8 @@
-use crate::Urls;
 use crate::errors::ApiKeyError;
+use crate::Urls;
 use json::object;
-use std::{fs, path::Path};
 use std::io::{Read, Write};
-
+use std::{fs, path::Path};
 
 #[derive(Clone, serde::Serialize, serde::Deserialize, std::fmt::Debug)]
 pub struct Parser {
@@ -49,8 +48,8 @@ impl Parser {
                 // let key_json = json::from(key);
                 let key_json: serde_json::Value = serde_json::from_str(&key.as_str()).unwrap();
                 Ok(key_json["key"].to_string())
-            },
-            Err(e) => Err(ApiKeyError::KeyFile(e))
+            }
+            Err(e) => Err(ApiKeyError::KeyFile(e)),
         }
     }
 
@@ -80,7 +79,10 @@ mod tests {
 
     #[test]
     fn test_apod_url() {
-        assert_eq!(Parser::new(String::from("DEMO_KEY")).apod_url(), "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY");
+        assert_eq!(
+            Parser::new(String::from("DEMO_KEY")).apod_url(),
+            "https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"
+        );
     }
 
     #[test]
