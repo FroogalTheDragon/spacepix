@@ -1,9 +1,15 @@
+use egui::Context;
+use egui::FontId;
 use egui::Image;
+use egui::RichText;
+
+use crate::Apod;
 
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
 pub struct ApodWindow {
     pub apod_window_visible: bool,
     pub apod_full_window_visible: bool,
+    pub apod_data: Option<Apod>,
 }
 
 impl Default for ApodWindow {
@@ -11,11 +17,73 @@ impl Default for ApodWindow {
         Self {
             apod_window_visible: false,
             apod_full_window_visible: false,
+            apod_data: None,
         }
     }
 }
 
 impl ApodWindow {
+    // Make the paramter self a &mut self to avoid errors with ui
+    pub fn create_apod_window(&mut self, ctx: &Context) {
+        let mut apod_window_visible = self.apod_window_visible; // Set a local variable to I don't have to use self with .open() below
+        egui::Window::new("APOD (Astronomy Pic Of the Day)")
+            .max_height(1000.0)
+            .open(&mut apod_window_visible) // This doesn't need to be &mut self.apod_ui_apod_window_visible
+            .show(ctx, |ui| {
+                // APOD Window //
+                egui::Frame::default().show(ui, |ui| {
+                    match &self.apod_data {
+                        Some(data) => {
+                            ui.heading(
+                                RichText::new(data.title.clone()).font(FontId::monospace(20.0)),
+                            );
+                            if ui
+                                .add(egui::Button::image(
+                                    egui::Image::from_uri(data.url.clone())
+                                        .fit_to_original_size(1.0),
+                                ))
+                                .on_hover_cursor(egui::CursorIcon::PointingHand)
+                                .clicked()
+                            {
+                                self.apod_full_window_visible = true;
+                                //self.show_apod_full(true);
+                            }
+                            ui.label(format!(
+                                "Copyright: {}",
+                                data.copyright.clone().replace("\n", "")
+                            ));
+                            ui.heading(RichText::new("Description:").font(FontId::monospace(30.0)));
+                            ui.separator();
+                            egui::ScrollArea::vertical().show(ui, |ui| {
+                                ui.label(
+                                    RichText::new(data.explanation.clone())
+                                        .font(FontId::monospace(17.0)),
+                                );
+                            });
+
+                            if self.apod_full_window_visible {
+                                self.apod_full_window(
+                                    &egui::Image::from_uri(data.hdurl.clone()),
+                                    &data.title.clone(),
+                                    &data.copyright.clone(),
+                                    &ctx,
+                                );
+                            }
+                        }
+                        None => match Apod::get_apod_data_blocking() {
+                            Ok(apod) => self.apod_data = Some(apod),
+                            Err(_e) => {
+                                ui.label("Network Error");
+                            }
+                        },
+                    }
+                });
+            }); // APOD //
+        self.apod_window_visible = apod_window_visible;
+
+        println!("APOD visibility: {}", self.apod_window_visible);
+    }
+
     pub fn apod_full_window(
         &mut self,
         img: &Image,
