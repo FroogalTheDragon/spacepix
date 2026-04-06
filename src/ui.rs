@@ -80,8 +80,6 @@ impl ApodWindow {
                 });
             }); // APOD //
         self.apod_window_visible = apod_window_visible;
-
-        println!("APOD visibility: {}", self.apod_window_visible);
     }
 
     pub fn apod_full_window(
